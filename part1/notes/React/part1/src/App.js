@@ -23,14 +23,22 @@
 // }
 
 // export default App;
+import { getByDisplayValue } from '@testing-library/react'
+import { useState } from 'react'
 
-const Hello = (props) => {
+const Hello = ({name, age}) => {
+  const bornYear = () => new Date().getFullYear() - age
+
   return (
     <div>
-      <p>Hello {props.name}, you are {props.age} years old</p>
+      <p>
+        Hello {name}, you are {age} years old
+      </p>
+      <p>So you were probably born in {bornYear()}</p>
     </div>
   )
 }
+
 
 // React component names must be capitalized
 const Footer = () => {
@@ -41,7 +49,34 @@ const Footer = () => {
   )
 }
 
+const Display = ({counter}) => <div>{counter}</div>
+
+const Button = ({ onClick, text}) => {
+  return (
+    <button onClick={onClick}>
+      {text}
+    </button>
+  )
+}
+
 const App = () => { 
+  const [ counter, setCounter ] = useState(0)
+
+  const increaseByOne = () => setCounter(counter+1)
+  const decreaseByOne = () => setCounter(counter-1)
+  const setToZero = () => setCounter(0)
+
+  // setTimeout(
+  //   () => setCounter(counter + 1),
+  //   1000
+  // )
+
+  // const handleClick = () => {
+  //   console.log('clicked')
+  // }
+
+  console.log('rendering...', counter)
+
   const name = 'Peter'
   const age = 10
 
@@ -59,6 +94,20 @@ const App = () => {
       <Hello name = "Maya" age = {26 + 10}/>
       <Hello name = {name} age = {age}/>
       <Footer/>
+      <Display counter={counter}/>
+      <Button
+        onClick={increaseByOne}
+        text='plus'
+      />
+      <Button
+        onClick={setToZero}
+        text='zero'
+      />
+      <Button
+        onClick={decreaseByOne}
+        text='minus'
+      />
+      
     </>
   )
 }
