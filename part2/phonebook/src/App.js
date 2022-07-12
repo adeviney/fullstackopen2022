@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 const Entry = ({person}) => {
   return (
-    <p>{person.name}</p>
+    <div>{person.name}</div>
   )
 }
 
@@ -13,17 +13,25 @@ const App = () => {
 
   const addEntry = (event) => {
     event.preventDefault()
-    const newPerson = {
-      id: persons.length + 1,
-      name: newName
-    }
 
-    setPersons(persons.concat(newPerson))
+    const alreadyPresent = persons.some(p => p.name === newName)
+
+
+    if (!alreadyPresent) {
+      const newPerson = {
+        id: persons.length + 1,
+        name: newName
+      }
+      setPersons(persons.concat(newPerson))
+    }
+    
+    else {
+      window.alert(`${newName} is already added to the phonebook`)
+    }
     setNewName('')
   }
 
   const handleInputChange = (event) => {
-    console.log(event.target.value)
     setNewName(event.target.value)
   }
 
