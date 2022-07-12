@@ -25,6 +25,7 @@ const App = () => {
     copyVotes[selected] += 1
 
     setVotes(copyVotes)
+    
 
     const maxVotes = Math.max(...copyVotes)
     setWinner(copyVotes.indexOf(maxVotes))
