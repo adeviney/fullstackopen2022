@@ -1,11 +1,8 @@
 import { useState } from 'react'
+import PersonForm from './components/PersonForm'
+import Filter from './components/Filter'
+import Persons from './components/Persons'
 
-
-const Entry = ({person}) => {
-  return (
-    <div>{person.name} {person.phone}</div>
-  )
-}
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
@@ -13,76 +10,30 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setFilter] = useState('')
 
-  const addEntry = (event) => {
-    event.preventDefault()
-    const alreadyPresent = persons.some(p => p.name === newName)
-
-    if (!alreadyPresent) {
-      const newPerson = {
-        id: persons.length + 1,
-        name: newName,
-        phone: newNumber
-      }
-
-      setPersons(persons.concat(newPerson))
-    }
-    
-    else {
-      window.alert(`${newName} is already added to the phonebook`)
-    }
-    setNewName('')
-    setNewNumber('')
-  }
-
-  const handleNameChange = (event) => {
-    setNewName(event.target.value)
-  }
-
-  const handleNumberChange = (event) => {
-    setNewNumber(event.target.value)
-  }
-
-  const handleFilterChange = (event) => {
-    setFilter(event.target.value)
-  }
-
-  const filteredPersons = persons.filter(
-    person => person.name.toLowerCase().startsWith(newFilter.toLowerCase()))
-
   return (
     <div>
       <h2>Phonebook</h2>
-      <form onSubmit={addEntry}>
-        <div>
-          filter shown with <input 
-                  value = {newFilter}
-                  onChange={handleFilterChange}/>
-        </div>
-      </form>
-
-      <h2>add a new</h2>
-      <form onSubmit={addEntry}>
-        <div>
-          name: <input 
-                  value = {newName}
-                  onChange={handleNameChange}/>
-        </div>
-        <div>number: <input 
-                        value = {newNumber}
-                        onChange = {handleNumberChange}/></div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-
       
+      <Filter 
+        newFilter = {newFilter}
+        setFilter = {setFilter}/>
 
+      <h3>add a new</h3>
 
-      <h2>Numbers</h2>
-      <ul>
-        {filteredPersons.map(person =>
-          <Entry key = {person.id} person = {person}/>)}
-      </ul>
+      <PersonForm
+        persons = {persons}
+        setPersons = {setPersons}
+        newName = {newName}
+        setNewName = {setNewName}
+        newNumber = {newNumber}
+        setNewNumber = {setNewNumber}
+      />
+
+      <h3>Numbers</h3>
+      <Persons
+        persons = {persons}
+        filter = {newFilter}
+      />
     </div>
   )
 }
